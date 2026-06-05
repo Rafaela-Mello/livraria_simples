@@ -1,6 +1,6 @@
 # Livraria
 
-E-commerce de livraria desenvolvido em **Python/Flask** com **MySQL**, como projeto da disciplina CMPLGP4 (Linguagem de Programação 4) — IFSP Campus Campinas.
+E-commerce de livraria desenvolvido em **Python/Flask** com **MySQL**, como projeto da disciplina Linguagem de Programação 4 — IFSP Campus Campinas.
 
 ## Funcionalidades
 
