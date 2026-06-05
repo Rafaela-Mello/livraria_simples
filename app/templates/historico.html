@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}Histórico — Livraria{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <h1>Histórico de Compras</h1>
+    <p>Consulte seus pedidos anteriores e veja os detalhes de cada compra.</p>
+</section>
+
+{% if compras %}
+<div class="history-stats">
+    <div class="history-stat-card">
+        <span class="history-stat-label">Total de compras</span>
+        <strong class="history-stat-value">{{ qtd_compras }}</strong>
+    </div>
+    <div class="history-stat-card">
+        <span class="history-stat-label">Valor total gasto</span>
+        <strong class="history-stat-value">R$ {{ "%.2f"|format(total_gasto) }}</strong>
+    </div>
+</div>
+
+<div class="history-layout">
+    <section class="history-list">
+        <h2>Seus pedidos</h2>
+        <ul class="purchase-list">
+            {% for compra in compras %}
+            <li class="purchase-item {% if compra_detalhe and compra.id == compra_detalhe.id %}active{% endif %}">
+                <a href="{{ url_for('historico', compra_id=compra.id) }}" class="purchase-card">
+                    <div class="purchase-card-top">
+                        <span class="purchase-id">Pedido #{{ compra.id }}</span>
+                        <span class="purchase-total">R$ {{ "%.2f"|format(compra.total) }}</span>
+                    </div>
+                    <div class="purchase-card-bottom">
+                        <span class="purchase-date">{{ compra.data_compra.strftime('%d/%m/%Y às %H:%M') }}</span>
+                        <span class="purchase-items-count">{{ compra.qtd_itens }} item(ns)</span>
+                    </div>
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </section>
+
+    <section class="history-detail">
+        {% if compra_detalhe %}
+        <div class="history-detail-header">
+            <div>
+                <h2>Pedido #{{ compra_detalhe.id }}</h2>
+                <p class="detail-date">{{ compra_detalhe.data_compra.strftime('%d/%m/%Y às %H:%M') }}</p>
+            </div>
+            <div class="history-detail-total">
+                <span>Total pago</span>
+                <strong>R$ {{ "%.2f"|format(compra_detalhe.total) }}</strong>
+            </div>
+        </div>
+
+        <ul class="history-items-list">
+            {% for item in itens_detalhe %}
+            <li class="history-item">
+                <div class="history-item-icon">📖</div>
+                <div class="history-item-info">
+                    <h3>{{ item.nome }}</h3>
+                    <p>{{ item.quantidade }}x R$ {{ "%.2f"|format(item.preco_unitario) }}</p>
+                </div>
+                <div class="history-item-subtotal">
+                    R$ {{ "%.2f"|format(item.quantidade * item.preco_unitario) }}
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <div class="history-detail-empty">
+            <p>Selecione um pedido para ver os detalhes.</p>
+        </div>
+        {% endif %}
+    </section>
+</div>
+{% else %}
+<div class="history-empty-state">
+    <div class="history-empty-icon">🛒</div>
+    <h2>Nenhuma compra ainda</h2>
+    <p>Você ainda não realizou compras nesta livraria.</p>
+    <a href="{{ url_for('index') }}" class="btn btn-primary">Ver livros</a>
+</div>
+{% endif %}
+{% endblock %}

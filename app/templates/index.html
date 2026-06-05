@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}Produtos — Livraria{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <h1>Bem-vindo à Livraria</h1>
+    <p>Encontre os melhores livros com entrega rápida e pagamento seguro.</p>
+</section>
+
+{% if not logado %}
+<div class="login-notice" id="login-notice">
+    <span>Faça <a href="{{ url_for('login') }}">login</a> ou <a href="{{ url_for('cadastro') }}">cadastre-se</a> para comprar.</span>
+    <button type="button" class="login-notice-close" aria-label="Fechar">×</button>
+</div>
+{% endif %}
+
+<div class="shop-layout {% if not logado %}shop-layout-full{% endif %}">
+    <section class="products-grid">
+        {% for produto in produtos %}
+        <article class="product-card" id="produto-{{ produto.id }}">
+            <div class="product-card-top">
+                <div class="product-icon">📖</div>
+            </div>
+            <div class="product-card-body">
+                <h2>{{ produto.nome }}</h2>
+                <p class="product-desc">{{ produto.descricao }}</p>
+                <p class="product-stock">Estoque: {{ produto.estoque }}</p>
+            </div>
+            <div class="product-card-footer">
+                <p class="product-price">R$ {{ "%.2f"|format(produto.preco) }}</p>
+                <div class="product-action">
+                    {% if produto.estoque > 0 %}
+                        {% if logado %}
+                        <form class="add-cart-form" action="{{ url_for('adicionar_carrinho', produto_id=produto.id) }}" method="post">
+                            <button type="submit" class="btn btn-primary btn-block">Comprar</button>
+                        </form>
+                        {% else %}
+                        <a href="{{ url_for('login') }}" class="btn btn-primary btn-block">Comprar</a>
+                        {% endif %}
+                    {% else %}
+                    <button class="btn btn-disabled btn-block" disabled>Indisponível</button>
+                    {% endif %}
+                </div>
+            </div>
+        </article>
+        {% else %}
+        <p class="empty-message">Nenhum produto cadastrado.</p>
+        {% endfor %}
+    </section>
+
+    {% if logado %}
+    <div id="cart-sidebar-container">
+        {% include "_carrinho_sidebar.html" %}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+

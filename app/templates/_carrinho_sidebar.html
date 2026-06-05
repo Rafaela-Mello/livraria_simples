@@ -1,0 +1,20 @@
+<aside class="cart-sidebar" id="cart-sidebar">
+    <h2>Carrinho ({{ cart_count }})</h2>
+
+    {% if items %}
+    <ul class="sidebar-cart-list">
+        {% for item in items %}
+        <li class="sidebar-cart-item">
+            <span class="sidebar-item-name">{{ item.nome }}</span>
+            <span class="sidebar-item-qty">{{ item.quantidade }}x</span>
+            <span class="sidebar-item-price">R$ {{ "%.2f"|format(item.subtotal) }}</span>
+        </li>
+        {% endfor %}
+    </ul>
+    <p class="sidebar-total">Total: <strong>R$ {{ "%.2f"|format(total) }}</strong></p>
+    <a href="{{ url_for('carrinho') }}" class="btn btn-primary btn-block">Ver carrinho</a>
+    <a href="{{ url_for('pagamento') }}" class="btn btn-blue btn-block btn-checkout">Finalizar compra</a>
+    {% else %}
+    <p class="sidebar-empty">Seu carrinho está vazio.</p>
+    {% endif %}
+</aside>

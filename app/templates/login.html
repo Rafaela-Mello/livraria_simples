@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Login — Livraria{% endblock %}
+
+{% block content %}
+<section class="auth-card">
+    <h1>Login</h1>
+    <p class="auth-subtitle">Acesse sua conta para comprar livros.</p>
+
+    <form method="post" class="auth-form">
+        <label for="usuario">Usuário</label>
+        <input type="text" id="usuario" name="usuario" required autofocus>
+
+        <label for="senha">Senha</label>
+        <input type="password" id="senha" name="senha" required>
+
+        <button type="submit" class="btn btn-primary btn-block">Entrar</button>
+    </form>
+
+    <p class="auth-footer">Não tem conta? <a href="{{ url_for('cadastro') }}">Cadastre-se</a></p>
+</section>
+{% endblock %}

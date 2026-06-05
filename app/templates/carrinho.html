@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}Carrinho — Livraria{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <h1>Carrinho de Compras</h1>
+</section>
+
+{% if items %}
+<div class="cart-layout">
+    <div class="cart-items">
+        {% for item in items %}
+        <article class="cart-item">
+            <div class="cart-item-info">
+                <h2>{{ item.nome }}</h2>
+                <p>R$ {{ "%.2f"|format(item.preco) }} cada</p>
+                <p class="product-stock">Estoque disponível: {{ item.estoque }}</p>
+            </div>
+            <div class="cart-item-actions">
+                <form action="{{ url_for('diminuir_carrinho', produto_id=item.id) }}" method="post" class="inline-form">
+                    <button type="submit" class="btn btn-outline-dark btn-sm">−</button>
+                </form>
+                <span class="qty">{{ item.quantidade }}</span>
+                <form action="{{ url_for('aumentar_carrinho', produto_id=item.id) }}" method="post" class="inline-form">
+                    <button type="submit" class="btn btn-outline-dark btn-sm" {% if item.quantidade >= item.estoque %}disabled{% endif %}>+</button>
+                </form>
+                <form action="{{ url_for('remover_carrinho', produto_id=item.id) }}" method="post" class="inline-form">
+                    <button type="submit" class="btn btn-danger btn-sm">Remover</button>
+                </form>
+            </div>
+            <div class="cart-item-subtotal">
+                R$ {{ "%.2f"|format(item.subtotal) }}
+            </div>
+        </article>
+        {% endfor %}
+    </div>
+
+    <aside class="cart-summary">
+        <h2>Resumo</h2>
+        <p class="summary-total">Total: <strong>R$ {{ "%.2f"|format(total) }}</strong></p>
+        <a href="{{ url_for('pagamento') }}" class="btn btn-blue btn-block btn-checkout">Finalizar compra</a>
+        <form action="{{ url_for('limpar_carrinho') }}" method="post">
+            <button type="submit" class="btn btn-outline-dark btn-block">Remover todos</button>
+        </form>
+    </aside>
+</div>
+{% else %}
+<p class="empty-message">Seu carrinho está vazio. <a href="{{ url_for('index') }}">Ver produtos</a></p>
+{% endif %}
+{% endblock %}
