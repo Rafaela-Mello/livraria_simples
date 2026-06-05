@@ -49,7 +49,7 @@ lp4/
 
 ```bash
 git clone https://github.com/Rafaela-Mello/livraria_simples.git
-cd lp4
+cd livraria_simples
 ```
 
 2. Crie e ative o ambiente virtual:
@@ -78,7 +78,7 @@ DB_HOST=127.0.0.1
 DB_USER=root
 DB_PASSWORD=sua_senha
 DB_NAME=livraria
-SECRET_KEY=uma-chave-secreta-aleatoria
+SECRET_KEY=your_secret_key
 ```
 
 5. Crie o banco de dados:
@@ -104,7 +104,6 @@ Acesse: [http://localhost:5000](http://localhost:5000)
 ## Observações
 
 - O pagamento é **simulado** — nenhum dado real de cartão é processado.
-- O arquivo `.env` não deve ser enviado ao GitHub (já está no `.gitignore`).
 - O banco é criado com **12 livros** de exemplo prontos para teste.
 
 ## Autora
